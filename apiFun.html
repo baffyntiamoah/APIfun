@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+     <head>
+     	<meta charset="utf-8" />
+     	<meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no" />
+     	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     	<style>
+     		.cont{
+     			text-align: center;
+     		}
+     		h1{
+     			color: red;
+     			background-color: yellow;
+     			border-spacing: 10px;
+     		}
+     		body{
+     			background-color: green;
+     			color:white;
+     			font-family: avenir;
+     		}
+     		button{
+     			
+     			color:white;
+
+     		}
+     		div{
+     			text-align: center;
+     		}
+     		.one{
+     			background-color: blue;
+     		}
+     		p{
+     			color:red;
+     			border-radius: 10px;
+
+     		}
+     		.que{
+     			background-color: yellow;
+     			border-radius: 15px;
+     		}
+     		
+     	</style>
+
+     	
+     </head>
+     <body>
+     	   
+  
+            <div class="cont">
+             <h1>Welcome to The Brewery Industry searcher</h1>
+             <div class="que">
+             <p> The API selected is called Open Brewery DB with public information on breweries, cideries, brewpubs, and bottleshops. </p>
+             <p> It was found on 'https://www.openbrewerydb.org' </p>
+             <p> With this API, you can search for information from the API by name , by city , by state, by id and it will fetch data corresponding to what you searched.
+             <p> In this project , you will enter by key word and we will search for brewery and botteshops names in the database that match the word</p>
+         </div>
+
+
+             <p style="background-color: yellow;color:red"> All you have to do is click on the button , and we will fetch some information for you </p>
+
+             
+             <button type="button" id="btn-1" class="btn btn-primary one"> Click Here </button>
+             
+            <ul id="list"></ul>
+            </div>
+            <div id="res" class="que"></div>
+
+             
+             
+
+            <script>
+        let btn1 = document.getElementById("btn-1");
+        
+  
+  
+        btn1.addEventListener("click", buttonclickhandler);
+        
+
+  
+        function buttonclickhandler() {
+
+            let b_name= prompt("Enter any word and we search our data to find if there are brewery names that match");
+            
+                var client = new XMLHttpRequest();
+
+                
+                client.onreadystatechange = function () {
+                    if (client.status == 200 && client.readyState == 4) {
+                        // if request is successful
+                        let finals = document.querySelector("#res");
+                        finals.innerHTML = "";
+                        console.log(JSON.parse(client.responseText));
+
+                        JSON.parse(client.responseText).forEach((object) => {
+                            let Divd = document.createElement('div');
+                            //prints out corresponding names from the data into the div in html
+                            Divd.innerHTML = `<p>${object.name}`
+
+                            finals.appendChild(Divd);
+                        })
+                    }
+                    //if request is not complete dont run 
+                    if (client.readyState !== 4) return;
+
+                };
+
+                //
+                // Gets name of people from the API JSON
+                // 
+                
+                client.open('GET' , `https://api.openbrewerydb.org/breweries/search?query=${b_name}` , true);
+                client.send();
+        }
+
+
+       
+
+    </script>
+  
+  
+     	  
+
+     </body>
+</html>
